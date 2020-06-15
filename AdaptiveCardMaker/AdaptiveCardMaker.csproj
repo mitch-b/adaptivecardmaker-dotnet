@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.9.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.5" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

@@ -11,31 +11,9 @@ using System.Reflection;
 
 namespace AdaptiveCardMaker
 {
-    public class CardGeneratorOptions
-    {
-        public Assembly AssemblyWithEmbeddedResources { get; set; } = Assembly.GetEntryAssembly();
-        public string ManifestResourcePathFromNamespace { get; set; } = "Cards";
-        public string ProjectNamespace { get; set; }
-        public CardGeneratorOptions()
-        {
-        }
-    }
-    public class CardGeneratorOptions<T> : CardGeneratorOptions
-    {
-    }
-
-    public interface ICardGenerator
-    {
-        Attachment CreateAdaptiveCardAttachment(string cardName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null);
-    }
-
-    public interface ICardGenerator<T> : ICardGenerator
-    {
-    }
-
     public class CardGenerator: ICardGenerator
     {
-        internal CardGeneratorOptions _options;
+        internal readonly CardGeneratorOptions _options;
 
         /// <summary>
         /// 
@@ -51,23 +29,29 @@ namespace AdaptiveCardMaker
             {
                 this._options = cardGeneratorOptions.Value;
             }
+
+            if (string.IsNullOrWhiteSpace(this._options.ProjectNamespace))
+            {
+                throw new Exception("Bad configuration of AdaptiveCardMaker. Please supply a value for ProjectNamespace in service registration.");
+            }
+
+            this._options.ManifestResourceRoot = $"{this._options.ProjectNamespace}.";
+            if (!string.IsNullOrWhiteSpace(this._options.ManifestResourcePathFromNamespace))
+            {
+                this._options.ManifestResourceRoot += $"{this._options.ManifestResourcePathFromNamespace}.";
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cardName"></param>
-        /// <param name="data"></param>
-        /// <param name="customFunctions">For examples, see https://github.com/microsoft/botbuilder-dotnet/blob/master/libraries/AdaptiveExpressions/ExpressionFunctions.cs </param>
+        /// <param name="cardFileName">Name of embedded resource to read. Example, <code>welcomeCard.json</code></param>
+        /// <param name="data">Optional, dynamic object containing data to inject into card template</param>
+        /// <param name="customFunctions">Optional, for examples, see https://github.com/microsoft/botbuilder-dotnet/blob/master/libraries/AdaptiveExpressions/ExpressionFunctions.cs </param>
         /// <returns></returns>
-        public Attachment CreateAdaptiveCardAttachment(string cardName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
+        public Attachment CreateAdaptiveCardAttachment(string cardFileName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
         {
-            if (string.IsNullOrWhiteSpace(this._options.ProjectNamespace))
-            {
-                throw new Exception("Bad configuration of AdaptiveCardMaker. Please supply ProjectNamespace in service registration.");
-            }
-
-            var cardResourcePath = $"{this._options.ProjectNamespace}.{this._options.ManifestResourcePathFromNamespace}.{cardName}.json";
+            var cardResourcePath = $"{this._options.ManifestResourceRoot}{cardFileName}";
 
             using Stream stream = this._options.AssemblyWithEmbeddedResources.GetManifestResourceStream(cardResourcePath);
             using var reader = new StreamReader(stream);
@@ -100,18 +84,11 @@ namespace AdaptiveCardMaker
         }
     }
 
-    public class CardGenerator<T>: CardGenerator, ICardGenerator<T>
+    public class CardGenerator<T> : CardGenerator, ICardGenerator<T>
     {
         public CardGenerator(IOptions<CardGeneratorOptions<T>> cardGeneratorOptions = null)
+            : base(cardGeneratorOptions)
         {
-            if (cardGeneratorOptions == null)
-            {
-                this._options = new CardGeneratorOptions<T>();
-            }
-            else
-            {
-                this._options = cardGeneratorOptions.Value;
-            }
         }
     }
 }

@@ -2,7 +2,6 @@
 using AdaptiveCards;
 using AdaptiveCards.Rendering.Html;
 using AdaptiveExpressions;
-using Antlr4.Runtime.Misc;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 using System;
@@ -20,9 +19,9 @@ namespace TestCardConsumer.ConsoleApp
     public class Client
     {
         private readonly string _adaptiveCardHtmlStylesheetUrl = "https://raw.githubusercontent.com/microsoft/AdaptiveCards/main/source/nodejs/adaptivecards-site/themes/adaptivecards/source/css/style.css";
-        private readonly CardGenerator _cardGenerator;
-        private readonly CardGenerator<ImportedCardLibrary> _cardGeneratorImportedCardLibrary;
-        public Client(CardGenerator cardGenerator, CardGenerator<ImportedCardLibrary> cardGeneratorImportedCardLibrary)
+        private readonly ICardGenerator _cardGenerator;
+        private readonly ICardGenerator<ImportedCardLibrary> _cardGeneratorImportedCardLibrary;
+        public Client(ICardGenerator cardGenerator, ICardGenerator<ImportedCardLibrary> cardGeneratorImportedCardLibrary)
         {
             this._cardGenerator = cardGenerator;
             this._cardGeneratorImportedCardLibrary = cardGeneratorImportedCardLibrary;
@@ -32,7 +31,7 @@ namespace TestCardConsumer.ConsoleApp
         {
             string cardName, templatedCardJson;
 
-            cardName = "demoCard1";
+            cardName = "demoCard1.json";
             // generate Adaptive Card JSON
             templatedCardJson = GenerateCardJsonFromEmbeddedResource(this._cardGenerator, cardName);
             Console.WriteLine(templatedCardJson);
@@ -40,7 +39,7 @@ namespace TestCardConsumer.ConsoleApp
             RenderAdaptiveCardInHtmlFromJson(templatedCardJson);
 
 
-            cardName = "expressionTest1";
+            cardName = "expressionTest1.json";
             var expressions = new List<ExpressionEvaluator>
             {
                 new ExpressionEvaluator(
@@ -71,7 +70,7 @@ namespace TestCardConsumer.ConsoleApp
             // render as HTML from Adaptive Card JSON
             RenderAdaptiveCardInHtmlFromJson(templatedCardJson);
 
-            cardName = "demoCard2";
+            cardName = "demoCard2.json";
             // generate Adaptive Card JSON
             templatedCardJson = GenerateCardJsonFromEmbeddedResourceOfImportedCardLibrary(this._cardGeneratorImportedCardLibrary, cardName);
             Console.WriteLine(templatedCardJson);
@@ -89,10 +88,10 @@ namespace TestCardConsumer.ConsoleApp
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        private string GenerateCardJsonFromEmbeddedResource(CardGenerator cardGenerator, string cardName, IEnumerable<ExpressionEvaluator> customFunctions = null)
+        private string GenerateCardJsonFromEmbeddedResource(ICardGenerator cardGenerator, string cardName, IEnumerable<ExpressionEvaluator> customFunctions = null)
         {
             string dataJson = null;
-            var cardDataResourcePath = $"TestCardConsumer.ConsoleApp.Cards.{cardName}.data.json";
+            var cardDataResourcePath = $"TestCardConsumer.ConsoleApp.Cards.{cardName.Split('.')[0]}.data.json";
             using Stream stream = GetType().Assembly.GetManifestResourceStream(cardDataResourcePath);
             if (stream == null)
             {
@@ -116,10 +115,10 @@ namespace TestCardConsumer.ConsoleApp
         /// </summary>
         /// <param name="cardName"></param>
         /// <returns></returns>
-        private string GenerateCardJsonFromEmbeddedResourceOfImportedCardLibrary(CardGenerator cardGenerator, string cardName, IEnumerable<ExpressionEvaluator> customFunctions = null)
+        private string GenerateCardJsonFromEmbeddedResourceOfImportedCardLibrary(ICardGenerator cardGenerator, string cardName, IEnumerable<ExpressionEvaluator> customFunctions = null)
         {
             string dataJson = null;
-            var cardDataResourcePath = $"TestCardConsumer.CardLibrary.MyCards.{cardName}.data.json";
+            var cardDataResourcePath = $"TestCardConsumer.CardLibrary.MyCards.{cardName.Split('.')[0]}.data.json";
             using Stream stream = Assembly.GetAssembly(typeof(ImportedCardLibrary)).GetManifestResourceStream(cardDataResourcePath);
             if (stream == null)
             {

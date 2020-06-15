@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{15FB14
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCardConsumer.CardLibrary", "TestCardConsumer.CardLibrary\TestCardConsumer.CardLibrary.csproj", "{C7F88E00-EF75-4B57-B39C-DB9120B9B293}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCardConsumer.ConsoleApp", "SimpleCardConsumer.ConsoleApp\SimpleCardConsumer.ConsoleApp.csproj", "{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{C7F88E00-EF75-4B57-B39C-DB9120B9B293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F88E00-EF75-4B57-B39C-DB9120B9B293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7F88E00-EF75-4B57-B39C-DB9120B9B293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{78EE22D7-56F7-4B18-AA1F-5676BAF2BE59} = {EB55E4D7-478C-4CFA-A3BB-464EC9ABB8BF}
 		{C7F88E00-EF75-4B57-B39C-DB9120B9B293} = {EB55E4D7-478C-4CFA-A3BB-464EC9ABB8BF}
+		{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9} = {EB55E4D7-478C-4CFA-A3BB-464EC9ABB8BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {604E2B5F-842D-4F63-80ED-109E1CEDE92A}
