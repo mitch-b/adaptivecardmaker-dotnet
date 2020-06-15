@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCardConsumer.ConsoleApp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{15FB14B7-C565-406A-833E-9CEBEA9E5735}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		AdaptiveCardMaker.nuspec = AdaptiveCardMaker.nuspec
 	EndProjectSection
 EndProject
