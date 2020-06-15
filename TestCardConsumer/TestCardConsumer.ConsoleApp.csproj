@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Cards\demoCard1.data.json" />
+    <None Remove="Cards\demoCard1.json" />
+    <None Remove="Cards\expressionTest1.data.json" />
+    <None Remove="Cards\expressionTest1.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Cards\demoCard1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cards\demoCard1.data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cards\expressionTest1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cards\expressionTest1.data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards.Rendering.Html" Version="1.2.4" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.9.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdaptiveCardMaker\AdaptiveCardMaker.csproj" />
+    <ProjectReference Include="..\TestCardConsumer.CardLibrary\TestCardConsumer.CardLibrary.csproj" />
+  </ItemGroup>
+
+</Project>

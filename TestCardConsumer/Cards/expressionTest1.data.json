@@ -1,0 +1,9 @@
+{
+  "strings": {
+    "myName": "My name is {0} {1}"
+  },
+  "person": {
+    "firstName": "Andrew",
+    "lastName": "Leader"
+  }
+}
