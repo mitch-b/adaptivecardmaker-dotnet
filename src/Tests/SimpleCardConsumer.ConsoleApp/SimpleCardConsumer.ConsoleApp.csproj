@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdaptiveCardMaker\AdaptiveCardMaker.csproj" />
+    <ProjectReference Include="..\..\AdaptiveCardMaker\AdaptiveCardMaker.csproj" />
   </ItemGroup>
 
 </Project>

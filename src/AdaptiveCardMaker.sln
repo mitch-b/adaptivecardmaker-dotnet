@@ -7,17 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdaptiveCardMaker", "Adapti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EB55E4D7-478C-4CFA-A3BB-464EC9ABB8BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCardConsumer.ConsoleApp", "TestCardConsumer\TestCardConsumer.ConsoleApp.csproj", "{78EE22D7-56F7-4B18-AA1F-5676BAF2BE59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCardConsumer.ConsoleApp", "Tests\TestCardConsumer\TestCardConsumer.ConsoleApp.csproj", "{78EE22D7-56F7-4B18-AA1F-5676BAF2BE59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{15FB14B7-C565-406A-833E-9CEBEA9E5735}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
+		..\.gitignore = ..\.gitignore
 		AdaptiveCardMaker.nuspec = AdaptiveCardMaker.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCardConsumer.CardLibrary", "TestCardConsumer.CardLibrary\TestCardConsumer.CardLibrary.csproj", "{C7F88E00-EF75-4B57-B39C-DB9120B9B293}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCardConsumer.CardLibrary", "Tests\TestCardConsumer.CardLibrary\TestCardConsumer.CardLibrary.csproj", "{C7F88E00-EF75-4B57-B39C-DB9120B9B293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCardConsumer.ConsoleApp", "SimpleCardConsumer.ConsoleApp\SimpleCardConsumer.ConsoleApp.csproj", "{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCardConsumer.ConsoleApp", "Tests\SimpleCardConsumer.ConsoleApp\SimpleCardConsumer.ConsoleApp.csproj", "{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

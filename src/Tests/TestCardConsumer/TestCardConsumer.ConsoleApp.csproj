@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdaptiveCardMaker\AdaptiveCardMaker.csproj" />
+    <ProjectReference Include="..\..\AdaptiveCardMaker\AdaptiveCardMaker.csproj" />
     <ProjectReference Include="..\TestCardConsumer.CardLibrary\TestCardConsumer.CardLibrary.csproj" />
   </ItemGroup>
 
