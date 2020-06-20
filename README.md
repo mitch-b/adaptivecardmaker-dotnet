@@ -1,6 +1,6 @@
 # AdaptiveCardMaker
 
-[![Nuget install](https://img.shields.io/nuget/vpre/AdaptiveCardMaker.svg)](https://www.nuget.org/packages/AdaptiveCardMaker) ![nuget release](https://github.com/mitch-b/adaptivecardmaker-dotnet/workflows/nuget%20release/badge.svg?branch=master)
+[![Nuget install](https://img.shields.io/nuget/vpre/AdaptiveCardMaker.svg)](https://www.nuget.org/packages/AdaptiveCardMaker) ![nuget build](https://github.com/mitch-b/adaptivecardmaker-dotnet/workflows/nuget%20build/badge.svg)
 
 Package to help simplify templating language/generation of Adaptive Cards from .NET.
 
