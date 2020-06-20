@@ -1,6 +1,13 @@
 # AdaptiveCardMaker
 
+[![AdaptiveCardMaker](https://buildstats.info/nuget/AdaptiveCardMaker)](https://www.nuget.org/packages/AdaptiveCardMaker/) ![nuget release](https://github.com/mitch-b/adaptivecardmaker-dotnet/workflows/nuget%20release/badge.svg?branch=master)
+
 Package to help simplify templating language/generation of Adaptive Cards from .NET.
+
+See:
+* https://adaptivecards.io
+* [Adaptive Cards Designer](https://adaptivecards.io/designer/) (easily create your JSON templates here)
+* [Adaptive Cards Templating documentation](https://docs.microsoft.com/en-us/adaptive-cards/templating/)
 
 ## Getting Started
 
