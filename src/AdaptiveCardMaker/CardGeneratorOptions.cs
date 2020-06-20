@@ -20,7 +20,7 @@ namespace AdaptiveCardMaker
         /// </summary>
         public string ProjectNamespace { get; set; }
 
-        public string ManifestResourceRoot { get; internal set; }
+        internal string ManifestResourceRoot { get; set; }
     }
 
     /// <summary>
