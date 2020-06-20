@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/mitch-b/adaptivecardmaker-dotnet</RepositoryUrl>
     <PackageTags>botframework,adaptivecards</PackageTags>
     <PackageProjectUrl>https://github.com/mitch-b/adaptivecardmaker-dotnet</PackageProjectUrl>
-    <Version>0.1.1-prerelease</Version>
+    <Version>0.2.0-prerelease</Version>
 
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -26,6 +26,7 @@
     <PackageReference Include="AdaptiveCards.Templating" Version="1.0.0-rc.1" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.9.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.5" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>

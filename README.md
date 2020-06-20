@@ -47,15 +47,12 @@ your web app project.
 Then, in your service registration (typically `Startup.cs`), add this library:
 
 ```csharp
-// usings...
 namespace Sample.Bot
 {
     public class Startup
     {
-        // ...
         public void ConfigureServices(IServiceCollection services)
         {
-            // ...
             services.AddAdaptiveCardGenerator();
             // ...
         }
@@ -69,13 +66,6 @@ Now, you can start using the CardGenerator from your Dialog/other classes. Here'
 within a Dialog of a Bot Skill:
 
 ```csharp
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-
 namespace Sample.Bot.Dialogs
 {
     public class WelcomeDialog : SkillDialogBase
@@ -87,13 +77,7 @@ namespace Sample.Bot.Dialogs
             : base(nameof(WelcomeDialog), serviceProvider)
         {
             _cardGenerator = cardGenerator;
-            var sample = new WaterfallStep[]
-            {
-                DisplayWelcomeAsync,
-                EndAsync,
-            };
-            AddDialog(new WaterfallDialog(nameof(WelcomeDialog), sample));
-            InitialDialogId = nameof(WelcomeDialog);
+            // ...
         }
 
         private async Task<DialogTurnResult> DisplayWelcomeAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -102,16 +86,12 @@ namespace Sample.Bot.Dialogs
             {
                 name = "Jane"
             };
-            var responseCard = this._cardGenerator.CreateAdaptiveCardAttachment("welcomeCard", cardData);
+            var responseCard = await this._cardGenerator.CreateAdaptiveCardAttachmentAsync("welcomeCard", cardData);
             var response = MessageFactory.Attachment(responseCard);
             await stepContext.Context.SendActivityAsync(response);
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
         }
-
-        private Task<DialogTurnResult> EndAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            return stepContext.EndDialogAsync(cancellationToken: cancellationToken);
-        }
+        // ...
     }
 }
 ```
@@ -122,7 +102,7 @@ To override defaults:
 services.AddAdaptiveCardGenerator(options =>
 {
     // folder containing JSON files from root of project
-    options.ManifestResourcePathFromNamespace = "Cards";
+    options.RelativeOrderedPathToCards = new[] { "Cards" };
 });
 ```
 
@@ -155,8 +135,7 @@ Then, in our service registration, we use the typed service registration method:
 services.AddAdaptiveCardGenerator<ImportedCardLibrary>(options =>
 {
     options.AssemblyWithEmbeddedResources = Assembly.GetAssembly(typeof(ImportedCardLibrary));
-    options.ProjectNamespace = options.AssemblyWithEmbeddedResources?.GetName()?.Name;
-    options.ManifestResourcePathFromNamespace = "MyCards";
+    options.RelativeOrderedPathToCards = new[] { "MyCards" };
 });
 ```
 
@@ -184,7 +163,7 @@ namespace Sample.Bot.Dialogs
             {
                 name = "Jane"
             };
-            var responseCard = this._cardGenerator.CreateAdaptiveCardAttachment("welcomeCard", cardData);
+            var responseCard = await this._cardGenerator.CreateAdaptiveCardAttachmentAsync("welcomeCard", cardData);
             var response = MessageFactory.Attachment(responseCard);
             await stepContext.Context.SendActivityAsync(response);
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
@@ -193,8 +172,3 @@ namespace Sample.Bot.Dialogs
     }
 }
 ```
-
-## Roadmap
-
-* Microsoft.Extensions.FileProviders.Embedded
-* Better error handling and exception bubbling

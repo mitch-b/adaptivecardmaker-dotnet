@@ -1,19 +1,21 @@
 ﻿using AdaptiveCards.Templating;
 using AdaptiveExpressions;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace AdaptiveCardMaker
 {
     public class CardGenerator: ICardGenerator
     {
         internal readonly CardGeneratorOptions _options;
+        private readonly string _resourceRoot;
 
         /// <summary>
         /// 
@@ -30,15 +32,19 @@ namespace AdaptiveCardMaker
                 this._options = cardGeneratorOptions.Value;
             }
 
-            if (string.IsNullOrWhiteSpace(this._options.ProjectNamespace))
+            if (this._options.AssemblyWithEmbeddedResources == null)
             {
-                throw new Exception("Bad configuration of AdaptiveCardMaker. Please supply a value for ProjectNamespace in service registration.");
+                throw new ArgumentException($"Bad configuration of AdaptiveCardMaker. Please supply a value for {nameof(this._options.AssemblyWithEmbeddedResources)} in service registration.");
             }
 
-            this._options.ManifestResourceRoot = $"{this._options.ProjectNamespace}.";
-            if (!string.IsNullOrWhiteSpace(this._options.ManifestResourcePathFromNamespace))
+            this._resourceRoot = string.Empty;
+            if (this._options.RelativeOrderedPathToCards?.Any(p => !string.IsNullOrWhiteSpace(p)) == true)
             {
-                this._options.ManifestResourceRoot += $"{this._options.ManifestResourcePathFromNamespace}.";
+                this._resourceRoot = string.Join(".", 
+                    this._options.RelativeOrderedPathToCards
+                        .Where(p => !string.IsNullOrWhiteSpace(p))
+                        .Select(p => p.Trim('.')))
+                    + ".";
             }
         }
 
@@ -49,13 +55,19 @@ namespace AdaptiveCardMaker
         /// <param name="data">Optional, dynamic object containing data to inject into card template</param>
         /// <param name="customFunctions">Optional, for examples, see https://github.com/microsoft/botbuilder-dotnet/blob/master/libraries/AdaptiveExpressions/ExpressionFunctions.cs </param>
         /// <returns></returns>
-        public Attachment CreateAdaptiveCardAttachment(string cardFileName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
+        public async Task<Attachment> CreateAdaptiveCardAttachmentAsync(string cardFileName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
         {
-            var cardResourcePath = $"{this._options.ManifestResourceRoot}{cardFileName}";
-
-            using Stream stream = this._options.AssemblyWithEmbeddedResources.GetManifestResourceStream(cardResourcePath);
+            var cardResourcePath = $"{this._resourceRoot}{cardFileName}";
+            var embeddedProvider = new EmbeddedFileProvider(this._options.AssemblyWithEmbeddedResources);
+            using var stream = embeddedProvider.GetFileInfo(cardResourcePath).CreateReadStream();
+            if (stream == null)
+            {
+                throw new Exception($"Embedded resource named '{cardResourcePath}' could not be " 
+                    + $"found in '{this._options.AssemblyWithEmbeddedResources.GetName().Name}'. "
+                    + "Please ensure the card file is marked with Build Action of 'Embedded resource' and Copied to Output Directory.");
+            }
             using var reader = new StreamReader(stream);
-            var templateJson = reader.ReadToEnd();
+            var templateJson = await reader.ReadToEndAsync();
             var template = new AdaptiveCardTemplate(templateJson);
             string cardJson = templateJson;
 
@@ -81,6 +93,11 @@ namespace AdaptiveCardMaker
                 ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = JsonConvert.DeserializeObject(cardJson),
             };
+        }
+
+        public Attachment CreateAdaptiveCardAttachment(string cardFileName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
+        {
+            return CreateAdaptiveCardAttachmentAsync(cardFileName, data, customFunctions).GetAwaiter().GetResult();
         }
     }
 

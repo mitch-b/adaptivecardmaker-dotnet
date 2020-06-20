@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using TestCardConsumer.CardLibrary;
 
 namespace TestCardConsumer.ConsoleApp
@@ -72,7 +73,11 @@ namespace TestCardConsumer.ConsoleApp
 
             cardName = "demoCard2.json";
             // generate Adaptive Card JSON
-            templatedCardJson = GenerateCardJsonFromEmbeddedResourceOfImportedCardLibrary(this._cardGeneratorImportedCardLibrary, cardName);
+            Task.Run(async () =>
+            {
+                templatedCardJson = await GenerateCardJsonFromEmbeddedResourceOfImportedCardLibraryAsync(this._cardGeneratorImportedCardLibrary, cardName);
+            }).GetAwaiter().GetResult();
+            
             Console.WriteLine(templatedCardJson);
             // render as HTML from Adaptive Card JSON
             RenderAdaptiveCardInHtmlFromJson(templatedCardJson);
@@ -132,6 +137,33 @@ namespace TestCardConsumer.ConsoleApp
 
             dynamic data = string.IsNullOrWhiteSpace(dataJson) ? null : JsonConvert.DeserializeObject<dynamic>(dataJson);
             Attachment attachment = cardGenerator.CreateAdaptiveCardAttachment(cardName, data, customFunctions);
+            var templatedCardJson = attachment.Content.ToString();
+            return templatedCardJson;
+        }
+
+        /// <summary>
+        /// Main function that calls this library's code.
+        /// First will 
+        /// </summary>
+        /// <param name="cardName"></param>
+        /// <returns></returns>
+        private async Task<string> GenerateCardJsonFromEmbeddedResourceOfImportedCardLibraryAsync(ICardGenerator cardGenerator, string cardName, IEnumerable<ExpressionEvaluator> customFunctions = null)
+        {
+            string dataJson = null;
+            var cardDataResourcePath = $"TestCardConsumer.CardLibrary.MyCards.{cardName.Split('.')[0]}.data.json";
+            using Stream stream = Assembly.GetAssembly(typeof(ImportedCardLibrary)).GetManifestResourceStream(cardDataResourcePath);
+            if (stream == null)
+            {
+                Console.WriteLine("!!! Data JSON could not be loaded - it may not exist for this card or it is not set with compile action of Embedded Resource and not copied to output");
+            }
+            else
+            {
+                using var reader = new StreamReader(stream);
+                dataJson = reader.ReadToEnd();
+            }
+
+            dynamic data = string.IsNullOrWhiteSpace(dataJson) ? null : JsonConvert.DeserializeObject<dynamic>(dataJson);
+            Attachment attachment = await cardGenerator.CreateAdaptiveCardAttachmentAsync(cardName, data, customFunctions);
             var templatedCardJson = attachment.Content.ToString();
             return templatedCardJson;
         }

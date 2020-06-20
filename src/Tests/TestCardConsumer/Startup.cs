@@ -23,8 +23,7 @@ namespace TestCardConsumer.ConsoleApp
             services.AddAdaptiveCardGenerator<ImportedCardLibrary>(options =>
             {
                 options.AssemblyWithEmbeddedResources = Assembly.GetAssembly(typeof(ImportedCardLibrary));
-                options.ProjectNamespace = options.AssemblyWithEmbeddedResources?.GetName()?.Name;
-                options.ManifestResourcePathFromNamespace = "MyCards";
+                options.RelativeOrderedPathToCards = new[] { "MyCards" };
             });
             services.AddTransient<Client>();
             return services;

@@ -8,12 +8,7 @@ namespace AdaptiveCardMaker
     {
         public static IServiceCollection AddAdaptiveCardGenerator(this IServiceCollection services)
         {
-            services.Configure<CardGeneratorOptions>(options =>
-            {
-                options.ProjectNamespace = options.AssemblyWithEmbeddedResources?.GetName()?.Name;
-            });
-            services.AddSingleton<ICardGenerator, CardGenerator>();
-            return services;
+            return AddAdaptiveCardGenerator(services, options => new CardGeneratorOptions());
         }
         public static IServiceCollection AddAdaptiveCardGenerator(this IServiceCollection services, Action<CardGeneratorOptions> options = null)
         {
@@ -24,13 +19,10 @@ namespace AdaptiveCardMaker
         }
         public static IServiceCollection AddAdaptiveCardGenerator<T>(this IServiceCollection services)
         {
-            services.Configure<CardGeneratorOptions<T>>(options =>
+            return AddAdaptiveCardGenerator<T>(services, options =>
             {
                 options.AssemblyWithEmbeddedResources = Assembly.GetAssembly(typeof(T));
-                options.ProjectNamespace = options.AssemblyWithEmbeddedResources?.GetName()?.Name;
             });
-            services.AddSingleton<ICardGenerator<T>, CardGenerator<T>>();
-            return services;
         }
         public static IServiceCollection AddAdaptiveCardGenerator<T>(this IServiceCollection services, Action<CardGeneratorOptions<T>> options = null)
         {

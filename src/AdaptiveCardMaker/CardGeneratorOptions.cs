@@ -1,24 +1,23 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace AdaptiveCardMaker
 {
+    /// <summary>
+    /// Options needed to access the appropriate AdaptiveCard files embedded in your assembly.
+    /// </summary>
     public class CardGeneratorOptions
     {
         /// <summary>
-        /// Assembly to make the GetManifestResourceStream() call from. The assembly used 
-        /// must match the project which has the embedded card JSON files.
+        /// Assembly to pull Adaptive Card JSON embedded resources from.
         /// </summary>
         public Assembly AssemblyWithEmbeddedResources { get; set; } = Assembly.GetEntryAssembly();
         /// <summary>
         /// Folder Path in which the card JSON files can be found.
-        /// Used in deriving path to embedded resources via Assembly.GetManifestResourceStream().
+        /// Used in deriving path to embedded resources from assmebly.
+        /// Default is [ "Cards" ]
         /// </summary>
-        public string ManifestResourcePathFromNamespace { get; set; } = "Cards";
-        /// <summary>
-        /// This value should match the project's namespace which has the embedded JSON files.
-        /// Used in deriving path to embedded resources via Assembly.GetManifestResourceStream().
-        /// </summary>
-        public string ProjectNamespace { get; set; }
+        public IEnumerable<string> RelativeOrderedPathToCards { get; set; } = new List<string>() { "Cards" };
 
         internal string ManifestResourceRoot { get; set; }
     }
