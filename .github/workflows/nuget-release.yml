@@ -1,8 +1,11 @@
 name: nuget release
 
-on:
+on: 
   push:
-    branches: [ master ]
+    branches: 
+      - master
+    paths: 
+      - src/AdaptiveCardMaker/AdaptiveCardMaker.csproj
 
 jobs:
   build:
