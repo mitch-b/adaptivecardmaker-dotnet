@@ -18,6 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCardConsumer.CardLibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCardConsumer.ConsoleApp", "Tests\SimpleCardConsumer.ConsoleApp\SimpleCardConsumer.ConsoleApp.csproj", "{06C85D8E-EE3E-4DF4-95ED-614F4A42FFC9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{049C5DCA-99A4-4790-ACE1-1F7C4D6997DC}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
