@@ -4,11 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <!-- Explicitly generate Assembly Info for System.Runtime.CompilerServices.InternalsVisibleTo -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Authors>Mitchell Barry</Authors>
     <RepositoryUrl>https://github.com/mitch-b/adaptivecardmaker-dotnet</RepositoryUrl>
     <PackageTags>botframework,adaptivecards</PackageTags>
     <PackageProjectUrl>https://github.com/mitch-b/adaptivecardmaker-dotnet</PackageProjectUrl>
-    <Version>0.2.1-prerelease</Version>
+    <Version>0.2.2-prerelease</Version>
 
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -33,6 +35,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Reflection" Version="4.3.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

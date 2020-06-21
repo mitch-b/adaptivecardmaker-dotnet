@@ -15,7 +15,7 @@ namespace AdaptiveCardMaker
     public class CardGenerator: ICardGenerator
     {
         internal readonly CardGeneratorOptions _options;
-        private readonly string _resourceRoot;
+        internal readonly string _resourceRoot;
 
         /// <summary>
         /// 
@@ -37,7 +37,7 @@ namespace AdaptiveCardMaker
                 this._resourceRoot = string.Join(".", 
                     this._options.RelativeOrderedPathToCards
                         .Where(p => !string.IsNullOrWhiteSpace(p))
-                        .Select(p => p.Trim('.')))
+                        .Select(p => p.Trim().Trim('.')))
                     + ".";
             }
         }
