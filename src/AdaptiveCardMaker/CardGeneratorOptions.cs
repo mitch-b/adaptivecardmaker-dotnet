@@ -4,7 +4,7 @@ using System.Reflection;
 namespace AdaptiveCardMaker
 {
     /// <summary>
-    /// Options needed to access the appropriate AdaptiveCard files embedded in your assembly.
+    /// Options needed by ICardGenerator to access the appropriate AdaptiveCard files embedded in your assembly.
     /// </summary>
     public class CardGeneratorOptions
     {

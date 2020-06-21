@@ -69,8 +69,25 @@ namespace Sample.Bot
 
 ```
 
-Now, you can start using the CardGenerator from your Dialog/other classes. Here's an example 
-within a Dialog of a Bot Skill:
+Now, you can start using the CardGenerator from your Dialog/other classes. For a sample card, named `welcomeCard.json`: 
+
+```json
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "Hi, ${name}"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.2"
+}
+```
+
+Here's an example how to create the Adaptive Card Attachment within a Dialog of a Bot Skill:
 
 ```csharp
 namespace Sample.Bot.Dialogs
@@ -91,9 +108,9 @@ namespace Sample.Bot.Dialogs
         {
             var cardData = new
             {
-                name = "Jane"
+                name = "Jane" // card says "Hi, Jane"
             };
-            var responseCard = await this._cardGenerator.CreateAdaptiveCardAttachmentAsync("welcomeCard", cardData);
+            var responseCard = await this._cardGenerator.CreateAdaptiveCardAttachmentAsync("welcomeCard.json", cardData);
             var response = MessageFactory.Attachment(responseCard);
             await stepContext.Context.SendActivityAsync(response);
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
@@ -168,9 +185,9 @@ namespace Sample.Bot.Dialogs
         {
             var cardData = new
             {
-                name = "Jane"
+                name = "Jane" // card says "Hi, Jane"
             };
-            var responseCard = await this._cardGenerator.CreateAdaptiveCardAttachmentAsync("welcomeCard", cardData);
+            var responseCard = await this._cardGenerator.CreateAdaptiveCardAttachmentAsync("welcomeCard.json", cardData);
             var response = MessageFactory.Attachment(responseCard);
             await stepContext.Context.SendActivityAsync(response);
             return await stepContext.NextAsync(cancellationToken: cancellationToken);

@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/mitch-b/adaptivecardmaker-dotnet</RepositoryUrl>
     <PackageTags>botframework,adaptivecards</PackageTags>
     <PackageProjectUrl>https://github.com/mitch-b/adaptivecardmaker-dotnet</PackageProjectUrl>
-    <Version>0.2.0-prerelease</Version>
+    <Version>0.2.1-prerelease</Version>
 
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

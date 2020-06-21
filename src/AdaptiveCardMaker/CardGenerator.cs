@@ -20,17 +20,11 @@ namespace AdaptiveCardMaker
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="projectNamespace">If not provided, reflection is used.</param>
+        /// <param name="cardGeneratorOptions"></param>
         public CardGenerator(IOptions<CardGeneratorOptions> cardGeneratorOptions = null)
         {
-            if (cardGeneratorOptions == null)
-            {
-                this._options = new CardGeneratorOptions();
-            }
-            else
-            {
-                this._options = cardGeneratorOptions.Value;
-            }
+            this._options = cardGeneratorOptions != null ? cardGeneratorOptions.Value
+                : new CardGeneratorOptions();
 
             if (this._options.AssemblyWithEmbeddedResources == null)
             {
@@ -49,12 +43,11 @@ namespace AdaptiveCardMaker
         }
 
         /// <summary>
-        /// 
+        /// Create AdaptiveCard Attachment from JSON template using template engine. 
         /// </summary>
-        /// <param name="cardFileName">Name of embedded resource to read. Example, <code>welcomeCard.json</code></param>
+        /// <param name="cardName">Name of embedded resource to read. Example, <code>welcomeCard.json</code></param>
         /// <param name="data">Optional, dynamic object containing data to inject into card template</param>
         /// <param name="customFunctions">Optional, for examples, see https://github.com/microsoft/botbuilder-dotnet/blob/master/libraries/AdaptiveExpressions/ExpressionFunctions.cs </param>
-        /// <returns></returns>
         public async Task<Attachment> CreateAdaptiveCardAttachmentAsync(string cardFileName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
         {
             var cardResourcePath = $"{this._resourceRoot}{cardFileName}";
@@ -95,9 +88,16 @@ namespace AdaptiveCardMaker
             };
         }
 
+        /// <summary>
+        /// Create AdaptiveCard Attachment from JSON template using template engine. 
+        /// </summary>
+        /// <param name="cardName">Name of embedded resource to read. Example, <code>welcomeCard.json</code></param>
+        /// <param name="data">Optional, dynamic object containing data to inject into card template</param>
+        /// <param name="customFunctions">Optional, for examples, see https://github.com/microsoft/botbuilder-dotnet/blob/master/libraries/AdaptiveExpressions/ExpressionFunctions.cs </param>
+        /// <returns></returns>
         public Attachment CreateAdaptiveCardAttachment(string cardFileName, dynamic data = null, IEnumerable<ExpressionEvaluator> customFunctions = null)
         {
-            return CreateAdaptiveCardAttachmentAsync(cardFileName, data, customFunctions).GetAwaiter().GetResult();
+            return this.CreateAdaptiveCardAttachmentAsync(cardFileName, data, customFunctions).GetAwaiter().GetResult();
         }
     }
 
